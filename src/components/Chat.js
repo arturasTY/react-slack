@@ -72,38 +72,42 @@ function Chat() {
 
   return (
     <ChatContainer>
-      <ChatHeader>
-        <HeaderLeft>
-          <h4>
-            <strong>#{channelName}</strong>
-          </h4>
-          <StarBorderIcon />
-        </HeaderLeft>
-        <HeaderRight>
-          <HelpOutlineIcon />
-          <p>Details</p>
-        </HeaderRight>
-      </ChatHeader>
-      <ChatMessages>
-        {channelMessages?.docs.map((doc) => {
-          const { message, timestamp, user, userAvatar } = doc.data();
-          return (
-            <Message
-              key={doc.id}
-              message={message}
-              timestamp={timestamp}
-              user={user}
-              userAvatar={userAvatar}
-            />
-          );
-        })}
-        <ChatBottom ref={chatRef} />
-      </ChatMessages>
-      <ChatInput
-        channelName={channelName}
-        channelId={roomId}
-        chatRef={chatRef}
-      />
+      {channelDetails && channelMessages && (
+        <>
+          <ChatHeader>
+            <HeaderLeft>
+              <h4>
+                <strong>#{channelName}</strong>
+              </h4>
+              <StarBorderIcon />
+            </HeaderLeft>
+            <HeaderRight>
+              <HelpOutlineIcon />
+              <p>Details</p>
+            </HeaderRight>
+          </ChatHeader>
+          <ChatMessages>
+            {channelMessages?.docs.map((doc) => {
+              const { message, timestamp, user, userAvatar } = doc.data();
+              return (
+                <Message
+                  key={doc.id}
+                  message={message}
+                  timestamp={timestamp}
+                  user={user}
+                  userAvatar={userAvatar}
+                />
+              );
+            })}
+            <ChatBottom ref={chatRef} />
+          </ChatMessages>
+          <ChatInput
+            channelName={channelName}
+            channelId={roomId}
+            chatRef={chatRef}
+          />
+        </>
+      )}
     </ChatContainer>
   );
 }

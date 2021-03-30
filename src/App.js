@@ -6,23 +6,33 @@ import Modal from "./components/Modal";
 import { useSelector } from "react-redux";
 import { selectAddChannelIsOpen } from "./redux/ChannelSlice";
 import Chat from "./components/Chat";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { authentication } from "./firebase";
+import Login from "./components/Login";
 
 function App() {
   const addChannelIsOpen = useSelector(selectAddChannelIsOpen);
+  const [user, loading] = useAuthState(authentication);
   return (
     <div className="app">
       <Router>
-        <Header />
-        <div className="appContainer">
-          <Sidebar />
-          <Switch>
-            <Route path="/" exact>
-              <Chat />
-            </Route>
-          </Switch>
-        </div>
+        {!user ? (
+          <Login />
+        ) : (
+          <>
+            <Header />
+            <div className="appContainer">
+              <Sidebar />
+              <Switch>
+                <Route path="/" exact>
+                  <Chat />
+                </Route>
+              </Switch>
+            </div>
 
-        {addChannelIsOpen && <Modal />}
+            {addChannelIsOpen && <Modal />}
+          </>
+        )}
       </Router>
     </div>
   );

@@ -4,6 +4,8 @@ import { Avatar } from "@material-ui/core";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import SearchIcon from "@material-ui/icons/Search";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { authentication } from "../firebase";
 
 //Styled Components
 const HeaderContainer = styled.div`
@@ -72,10 +74,15 @@ const HeaderAvatar = styled(Avatar)`
 `;
 
 function Header() {
+  const [user] = useAuthState(authentication);
+  console.log(user);
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar />
+        <HeaderAvatar
+          onClick={() => authentication.signOut()}
+          src={user.photoURL}
+        />
         <QueryBuilderIcon />
       </HeaderLeft>
       <HeaderSearch>

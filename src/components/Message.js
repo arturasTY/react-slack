@@ -19,6 +19,13 @@ const MessageInfo = styled.div`
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
+  > h3 {
+    margin-right: 5px;
+  }
+  > span {
+    opacity: 0.5;
+    font-size: 0.8em;
+  }
 `;
 
 function Message({ message, timestamp, user, userAvatar }) {

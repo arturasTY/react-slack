@@ -1,8 +1,9 @@
 import React from "react";
 import { useRef } from "react";
 import styled from "styled-components";
-import { db } from "../firebase";
+import { authentication, db } from "../firebase";
 import firebase from "firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const ChatInputContainer = styled.div`
   background-color: #333;
@@ -29,6 +30,7 @@ const ChatInputContainer = styled.div`
 `;
 
 function ChatInput({ channelName, channelId, chatRef }) {
+  const [user] = useAuthState(authentication);
   const inputValue = useRef(null);
   const sendMessage = (e) => {
     e.preventDefault();
@@ -39,9 +41,8 @@ function ChatInput({ channelName, channelId, chatRef }) {
       db.collection("channels").doc(channelId).collection("messages").add({
         message: inputValue.current.value,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        user: "Artis",
-        userAvatar:
-          "https://images-na.ssl-images-amazon.com/images/M/MV5BODFjZTkwMjItYzRhMS00OWYxLWI3YTUtNWIzOWQ4Yjg4NGZiXkEyXkFqcGdeQXVyMTQ0ODAxNzE@._V1_UX172_CR0,0,172,256_AL_.jpg",
+        user: user.displayName,
+        userAvatar: user.photoURL,
       });
     }
     chatRef?.current?.scrollIntoView({
